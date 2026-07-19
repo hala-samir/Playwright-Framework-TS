@@ -13,8 +13,8 @@ export class LoginPage extends BasePage{
     }
 
     async login(email: string, password: string){
-        await this.fillText(this.emailInput, email);
-        await this.fillText(this.passwordInput, password);
-        await this.clickElement(this.loginButton);
+        await this.emailInput.fill(email);
+        await this.passwordInput.fill(password);
+        await this.loginButton.click();
     }
 }  
