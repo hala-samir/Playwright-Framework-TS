@@ -67,4 +67,8 @@ export class BasePage {
     async scrollToElement(element: Locator): Promise<void> {
         await element.scrollIntoViewIfNeeded();
     }
+
+    async getListOfText(element: Locator) : Promise<string[]> {
+        return await element.allTextContents() 
+    }
 }
