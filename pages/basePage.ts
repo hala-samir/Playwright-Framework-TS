@@ -1,60 +1,74 @@
-import { expect, type Locator, type Page  } from "@playwright/test";
+import { type Locator, type Page } from "@playwright/test";
 
 export class BasePage {
-    protected page: Page;   
+    constructor(public readonly page: Page) { }
 
-    constructor(page: Page) {
-        this.page = page;
+    async navigateTo(url: string): Promise<void> {
+        await this.page.goto(url);
     }
 
-    async navigateTo(url: string) {
+    async getPageTitle(): Promise<string> {
+        return this.page.title();
+    }
+
+    async getUrl(): Promise<string> {
+        return this.page.url();
+    }
+
+    /**
+     * Checks if an element is visible, optionally waiting for it.
+     * Returns a boolean instead of throwing an error on timeout.
+     */
+    async isElementVisible(element: Locator, timeout?: number): Promise<boolean> {
         try {
-            await this.page.goto(url, { waitUntil: 'domcontentloaded' });
-        } catch (error) {
-            console.error(`Error navigating to URL: ${url}`);
-            throw error;
+            await element.waitFor({ state: 'visible', timeout });
+            return true;
+        } catch {
+            return false;
         }
     }
 
-    async getTitle() : Promise<string>{
-
-        return await this.page.title();  
+    async waitForPageLoad(): Promise<void> {
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async isElementVisible(element: Locator): Promise<boolean>{
-        await element.waitFor({ state: 'visible' });
-        return await element.isVisible();
+    async waitForNetworkIdle(): Promise<void> {
+        await this.page.waitForLoadState('networkidle');
     }
 
-    async clickElement(element: Locator){
-        try{
-            await element.waitFor({ state: 'visible' });
-            await element.click();
-        } catch (error) {
-            console.error(`Error clicking element: ${error}`);
-            throw error;
-        }
+    async reloadPage(): Promise<void> {
+        await this.page.reload();
     }
 
-    async fillText(element: Locator, text:string){
-        try{
-        await element.waitFor({ state: 'visible' });
-        await element.fill(text);}
-        catch(error){
-            console.error(`Error filling text in element: "${text}"`);
-            throw error;
-        }
+    async goBack(): Promise<void> {
+        await this.page.goBack();
     }
 
-    async getElementText(element: Locator): Promise<string> {
+    async goForward(): Promise<void> {
+        await this.page.goForward();
+    }
+
+    /**
+     * Checks if an element is hidden or detached, optionally waiting for it.
+     * Returns a boolean instead of throwing an error on timeout.
+     */
+    async isElementHidden(element: Locator, timeout?: number): Promise<boolean> {
         try {
-            await element.waitFor({ state: 'visible' });
-            const text = (await element.textContent())?.trim() ?? '';
-            return text;
-        } catch (error) {
-            console.error(`Error getting text from element: ${error}`);
-            throw error;
+            await element.waitFor({ state: 'hidden', timeout });
+            return true;
+        } catch {
+            return false;
         }
     }
 
+    /**
+     * Scrolls the element into view if it is not already visible.
+     */
+    async scrollToElement(element: Locator): Promise<void> {
+        await element.scrollIntoViewIfNeeded();
+    }
+
+    async getListOfText(element: Locator) : Promise<string[]> {
+        return await element.allTextContents() 
+    }
 }
