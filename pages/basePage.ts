@@ -4,7 +4,7 @@ export class BasePage {
     constructor(public readonly page: Page) { }
 
     async navigateTo(url: string): Promise<void> {
-        await this.page.goto(url);
+        await this.page.goto(url, {waitUntil: 'domcontentloaded'});
     }
 
     async getPageTitle(): Promise<string> {
@@ -12,6 +12,7 @@ export class BasePage {
     }
 
     async getUrl(): Promise<string> {
+        this.waitForPageLoad();
         return this.page.url();
     }
 
