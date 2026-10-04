@@ -3,12 +3,14 @@ import { type Locator, type Page } from "@playwright/test";
 export class BasePage {
     constructor(public readonly page: Page) { }
 
-    async navigateTo(url: string): Promise<void> {
-        await this.page.goto(url, {waitUntil: 'domcontentloaded'});
+    /** Returns the BrowserContext associated with this page. */
+    get browserContext() {
+        return this.page.context();
     }
 
-    async getPageTitle(): Promise<string> {
-        return this.page.title();
+    async navigateTo(url: string): Promise<void> {
+        const baseUrl = process.env.BASE_URL;
+        await this.page.goto(`${baseUrl}/${url}`, { waitUntil: 'domcontentloaded' });
     }
 
     async getUrl(): Promise<string> {
@@ -29,25 +31,6 @@ export class BasePage {
         }
     }
 
-    async waitForPageLoad(): Promise<void> {
-        await this.page.waitForLoadState('domcontentloaded');
-    }
-
-    async waitForNetworkIdle(): Promise<void> {
-        await this.page.waitForLoadState('networkidle');
-    }
-
-    async reloadPage(): Promise<void> {
-        await this.page.reload();
-    }
-
-    async goBack(): Promise<void> {
-        await this.page.goBack();
-    }
-
-    async goForward(): Promise<void> {
-        await this.page.goForward();
-    }
 
     /**
      * Checks if an element is hidden or detached, optionally waiting for it.
@@ -69,7 +52,7 @@ export class BasePage {
         await element.scrollIntoViewIfNeeded();
     }
 
-    async getListOfText(element: Locator) : Promise<string[]> {
-        return await element.allTextContents() 
+    async getListOfText(element: Locator): Promise<string[]> {
+        return await element.allTextContents()
     }
 }

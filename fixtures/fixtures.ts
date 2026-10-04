@@ -1,7 +1,7 @@
 import { test as base, expect as baseExpect } from '@playwright/test';
 import { LoginPage } from '../pages/loginPage';
 import { SharedActions } from '../components/sharedActions';
-import { DashboardPage } from '../pages/dashboardPage'; 
+import { DashboardPage } from '../pages/dashboardPage';
 import { CustomLoginPage } from '../pages/customLoginPage';
 import { utimesSync } from 'fs';
 
@@ -18,13 +18,13 @@ export const test = base.extend<PageFixtures>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
   },
-  sharedActions: async({ page }, use)=> {
-    await use(new  SharedActions(page));
+  sharedActions: async ({ page }, use) => {
+    await use(new SharedActions(page));
   },
-  dashboardPage: async({ page }, use)=>{
+  dashboardPage: async ({ page }, use) => {
     await use(new DashboardPage(page));
   },
-  customLoginPage: async({ page }, use)=>{
+  customLoginPage: async ({ page }, use) => {
     await use(new CustomLoginPage(page));
   },
 });
