@@ -9,13 +9,7 @@ export class BasePage {
     }
 
     async navigateTo(url: string): Promise<void> {
-        const baseUrl = process.env.BASE_URL;
-        await this.page.goto(`${baseUrl}/${url}`, { waitUntil: 'domcontentloaded' });
-    }
-
-    async getUrl(): Promise<string> {
-        this.waitForPageLoad();
-        return this.page.url();
+        await this.page.goto(url, { waitUntil: 'domcontentloaded' });
     }
 
     /**
@@ -55,4 +49,5 @@ export class BasePage {
     async getListOfText(element: Locator): Promise<string[]> {
         return await element.allTextContents()
     }
+
 }

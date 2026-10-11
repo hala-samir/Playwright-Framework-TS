@@ -3,6 +3,7 @@ import { LoginPage } from '../pages/loginPage';
 import { SharedActions } from '../components/sharedActions';
 import { DashboardPage } from '../pages/dashboardPage';
 import { CustomLoginPage } from '../pages/customLoginPage';
+import { RegisterationPage } from '../pages/registerationPage';
 import { utimesSync } from 'fs';
 
 // Declare the types of your fixtures.
@@ -11,6 +12,7 @@ type PageFixtures = {
   sharedActions: SharedActions;
   dashboardPage: DashboardPage;
   customLoginPage: CustomLoginPage;
+  registerationPage: RegisterationPage;
 
 };
 
@@ -27,6 +29,10 @@ export const test = base.extend<PageFixtures>({
   customLoginPage: async ({ page }, use) => {
     await use(new CustomLoginPage(page));
   },
+  registerationPage: async ({ page }, use) => {
+    await use(new RegisterationPage(page));
+  },
+
 });
 
 export const expect = baseExpect;

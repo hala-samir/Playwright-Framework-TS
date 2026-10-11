@@ -9,6 +9,8 @@ export class RegisterationPage extends BasePage {
     private passwordField: Locator;
     private passwordConfirmation: Locator;
     private registerBtn: Locator;
+    private consentCheckBox: Locator;
+    private successMsg: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -19,6 +21,8 @@ export class RegisterationPage extends BasePage {
         this.passwordField = page.locator('#userPassword');
         this.passwordConfirmation = page.locator('#confirmPassword');
         this.registerBtn = page.locator('.login-btn');
+        this.consentCheckBox = page.getByRole("checkbox");
+        this.successMsg = page.locator('.headcolor');
     }
 
     async register(firstName: string, lastName: string, email: string, phone: string, password: string) {
@@ -28,7 +32,14 @@ export class RegisterationPage extends BasePage {
         await this.phone.fill(phone);
         await this.passwordField.fill(password);
         await this.passwordConfirmation.fill(password);
+        await this.consentCheckBox.click();
         await this.registerBtn.click();
     }
+
+    async getSuccessMsg(): Promise<string | null> {
+        return await this.successMsg.textContent();
+
+    }
+
 
 }

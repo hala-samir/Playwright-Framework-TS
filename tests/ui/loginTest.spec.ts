@@ -1,28 +1,30 @@
-import { expect, test } from "../../fixtures/fixtures"
+import { expect } from "../../fixtures/fixtures"
+import { test } from "../../fixtures/envTest"
+
 import { Locator } from "@playwright/test";
 
 test.describe('Custom login test', () => {
-    test('check the custom login', async ({ customLoginPage }) => {
-        await customLoginPage.navigateTo('/loginpagePractise/');
+    test('check the custom login', async ({ customLoginPage, uiBaseUrl }) => {
+        await customLoginPage.navigateTo(`${uiBaseUrl}/loginpagePractise/`);
         await customLoginPage.fillCredientials('rahulshettyacademy', 'Learning@830$3mK2');
         await customLoginPage.acceptTerms();
         await customLoginPage.selectUserType();
         await customLoginPage.selectUserTypeFromComboBox('Consultant')
         await customLoginPage.clickSignInBtn();
         await expect(customLoginPage.page).toHaveURL(
-            "https://rahulshettyacademy.com/angularpractice/shop"
+            `${uiBaseUrl}/angularpractice/shop`
         );
     });
 
-    test('check the blinking link opens a new tab', async ({ customLoginPage, context }) => {
-        await customLoginPage.navigateTo('/loginpagePractise/');
+    test('check the blinking link opens a new tab', async ({ customLoginPage, context, uiBaseUrl }) => {
+        await customLoginPage.navigateTo(`${uiBaseUrl}/loginpagePractise/`);
         const [newPage] = await Promise.all([
             context.waitForEvent('page'),
             customLoginPage.clickBlinkingLink()
         ]);
 
         await expect(newPage).toHaveURL(
-            'https://rahulshettyacademy.com/documents-request'
+            `${uiBaseUrl}/documents-request`
         );
         await newPage.waitForSelector('.red')
         console.log(await newPage.locator('.red').textContent());
