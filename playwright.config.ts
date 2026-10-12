@@ -27,7 +27,7 @@ export default defineConfig<EnvOptions>({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'https://rahulshettyacademy.com/client/#/auth/',
+    baseURL: process.env.UI_BASE_URL,
     uiBaseUrl: process.env.UI_BASE_URL,
     apiBaseUrl: process.env.API_BASE_URL as string,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */

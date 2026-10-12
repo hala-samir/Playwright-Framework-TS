@@ -4,7 +4,7 @@ import { LoginPage } from '../../pages/loginPage';
 
 test.describe('Login Page Tests', () => {
 
-  test.beforeEach(async ({ loginPage, sharedActions, uiBaseUrl }) => {
+  test.beforeEach(async ({ loginPage, uiBaseUrl }) => {
     await loginPage.navigateTo(`${uiBaseUrl}/client/#/auth/login`);
   });
 
@@ -15,8 +15,7 @@ test.describe('Login Page Tests', () => {
 
   test('user can not login with invalid credentials', async ({ loginPage }) => {
     await loginPage.login('invalid@gmail.com', 'test1234567890');
-    expect(await loginPage.getToastMessage).toContain('Incorrect email or password.');
-
+    await expect(loginPage.toastMessage).toContainText('Incorrect email or password.');
   });
 
   test('validation message appears in case of empty credientials', async ({ loginPage }) => {
