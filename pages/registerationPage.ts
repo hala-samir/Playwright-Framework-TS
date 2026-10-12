@@ -37,6 +37,7 @@ export class RegisterationPage extends BasePage {
     }
 
     async getSuccessMsg(): Promise<string | null> {
+        await this.successMsg.waitFor({ state: "visible" });
         return await this.successMsg.textContent();
 
     }

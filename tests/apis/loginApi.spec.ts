@@ -7,8 +7,8 @@ test.describe('Login Page Tests', () => {
         const response = await request.post(`${apiBaseUrl}/api/ecom/auth/login`, {
             data:
             {
-                userEmail: process.env.email,
-                userPassword: process.env.password
+                userEmail: process.env.email as string,
+                userPassword: process.env.password as string
             }
         });
         console.log(response);

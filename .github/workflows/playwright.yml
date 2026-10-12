@@ -25,3 +25,10 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+env:
+  TEST_ENV: prod
+  UI_BASE_URL: https://rahulshettyacademy.com
+  API_BASE_URL: https://rahulshettyacademy.com/client/#/auth
+  EMAIL: ${{ secrets.EMAIL }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+

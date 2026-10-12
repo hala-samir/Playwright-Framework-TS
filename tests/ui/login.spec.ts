@@ -1,6 +1,5 @@
 import { expect } from '../../fixtures/fixtures';
 import { test } from '../../fixtures/envTest';
-import { LoginPage } from '../../pages/loginPage';
 
 test.describe('Login Page Tests', () => {
 
@@ -9,7 +8,7 @@ test.describe('Login Page Tests', () => {
   });
 
   test('user can login with valid credentials', async ({ loginPage, sharedActions }) => {
-    await loginPage.login(process.env.email as string, process.env.password as string);
+    await loginPage.login(process.env.EMAIL as string, process.env.PASSWORD as string);
     expect(await sharedActions.isSignOutActionVisible()).toBeTruthy();
   });
 
