@@ -4,6 +4,14 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
+env:
+  TEST_ENV: prod
+  UI_BASE_URL: https://rahulshettyacademy.com
+  API_BASE_URL: https://rahulshettyacademy.com/client/#/auth
+  EMAIL: ${{ secrets.EMAIL || secrets.TEST_USER_EMAIL }}
+  PASSWORD: ${{ secrets.PASSWORD || secrets.TEST_USER_PASS }}
+
 jobs:
   test:
     timeout-minutes: 60
@@ -19,16 +27,13 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
+      env:
+        EMAIL: ${{ secrets.EMAIL || secrets.TEST_USER_EMAIL }}
+        PASSWORD: ${{ secrets.PASSWORD || secrets.TEST_USER_PASS }}
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
-env:
-  TEST_ENV: prod
-  UI_BASE_URL: https://rahulshettyacademy.com
-  API_BASE_URL: https://rahulshettyacademy.com/client/#/auth
-  EMAIL: ${{ secrets.EMAIL }}
-  PASSWORD: ${{ secrets.PASSWORD }}
 

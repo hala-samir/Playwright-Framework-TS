@@ -7,7 +7,9 @@ test.describe('Add To Cart', () => {
 
   test('user can product to cart', async ({ loginPage, dashboardPage, baseURL }) => {
     await loginPage.navigateTo(`${baseURL}/client/#/auth/login`);
-    await loginPage.login(process.env.email as string, process.env.password as string);
+    const email = (process.env.EMAIL ?? process.env.email) as string;
+    const password = (process.env.PASSWORD ?? process.env.password) as string;
+    await loginPage.login(email, password);
     await dashboardPage.searchProducts("ADIDAS ORIGINAL");
 
 

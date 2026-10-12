@@ -21,6 +21,12 @@ export class LoginPage extends BasePage {
     }
 
     async login(email: string, password: string) {
+        if (!email || !password) {
+            throw new Error(
+                `LoginPage.login missing credentials: email=${String(email)}, password=${String(password)}. ` +
+                `Provide non-empty strings (e.g. from process.env.EMAIL / process.env.PASSWORD) in CI.`
+            );
+        }
         await this.emailInput.fill(email);
         await this.passwordInput.fill(password);
         await this.clickLoginBtn();
